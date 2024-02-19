@@ -39,7 +39,10 @@ function Tabbed({ content }) {
       </div>
 
       {activeTab <= 2 ? (
-        <TabContent item={content.at(activeTab)} />
+        <TabContent
+          item={content.at(activeTab)}
+          key={content.at(activeTab).summary}
+        />
       ) : (
         <DifferentContent />
       )}
@@ -58,12 +61,20 @@ function Tab({ num, activeTab, onClick }) {
   );
 }
 
+console.log("RENDER");
+
 function TabContent({ item }) {
   const [showDetails, setShowDetails] = useState(true);
   const [likes, setLikes] = useState(0);
 
   function handleInc() {
     setLikes(likes + 1);
+  }
+
+  function handleUndo() {
+    setShowDetails(!showDetails);
+    setLikes(0);
+    console.log(likes);
   }
 
   return (
@@ -84,7 +95,7 @@ function TabContent({ item }) {
       </div>
 
       <div className="tab-undo">
-        <button>Undo</button>
+        <button onClick={() => handleUndo()}>Undo</button>
         <button>Undo in 2s</button>
       </div>
     </div>
